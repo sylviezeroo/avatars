@@ -1,0 +1,339 @@
+/* Visual Effects CSS - Dynamic Bloom System */
+
+/* Variable effects - Can be overridden by JavaScript */
+:root {
+    --bloom-strength: 1.3;
+    --bloom-radius: 15px;
+    --bloom-text-shadow: var(--color-primary);
+    --bloom-animation: subtle-pulse 4s infinite alternate;
+    --bloom-color: var(--color-primary);
+}
+
+/* Discord Widget Styles */
+.discord-widget {
+    background: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 280px;
+    max-width: 320px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.discord-widget:hover {
+    border-color: rgba(114, 137, 218, 0.5);
+    box-shadow: 0 12px 40px rgba(114, 137, 218, 0.2);
+}
+
+/* Discord Status Dots */
+.status-dot.discord-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #747f8d; /* Default offline */
+    animation: none;
+}
+
+/* Discord Avatar Container */
+.discord-avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.discord-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+    position: relative;
+    z-index: 1;
+}
+
+/* Avatar Decoration Overlay */
+.avatar-decoration {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 2;
+    animation: decoration-glow 3s ease-in-out infinite;
+}
+
+@keyframes decoration-glow {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+    }
+    50% {
+        filter: brightness(1.1) saturate(1.2);
+    }
+}
+
+.status-dot.discord-status.online {
+    background: #43b581;
+    animation: discord-pulse 2s infinite;
+}
+
+.status-dot.discord-status.idle {
+    background: #faa61a;
+}
+
+.status-dot.discord-status.dnd {
+    background: #f04747;
+}
+
+.status-dot.discord-status.invisible {
+    background: #747f8d;
+}
+
+/* Discord Activity Styles */
+.discord-activity {
+    background: rgba(88, 101, 242, 0.1);
+    border: 1px solid rgba(88, 101, 242, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+.discord-voice {
+    background: rgba(67, 181, 129, 0.1);
+    border: 1px solid rgba(67, 181, 129, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+/* Activity Progress */
+.activity-progress {
+    margin-top: 8px;
+}
+
+.activity-progress .progress-container {
+    background: rgba(255, 255, 255, 0.1);
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.activity-progress .progress-bar {
+    background: linear-gradient(90deg, #5865f2, #7289da);
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+/* Discord Animations */
+@keyframes discord-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(67, 181, 129, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(67, 181, 129, 0);
+    }
+}
+
+/* Activity Type Icons */
+.discord-activity .activity-type {
+    color: #5865f2;
+}
+
+.discord-activity.playing .activity-type {
+    color: #43b581;
+}
+
+.discord-activity.streaming .activity-type {
+    color: #593695;
+}
+
+.discord-activity.listening .activity-type {
+    color: #1db954;
+}
+
+.discord-activity.watching .activity-type {
+    color: #f47b67;
+}
+
+/* Enhanced Bloom Effect */
+.bloom {
+    filter: brightness(var(--bloom-strength)) drop-shadow(0 0 var(--bloom-radius) var(--bloom-color));
+    transition: filter 0.3s ease;
+}
+
+/* Bloom effect specifically for images - no brightness change */
+.bloom-image {
+    filter: drop-shadow(0 0 var(--bloom-radius) var(--bloom-color));
+    transition: filter 0.3s ease;
+}
+
+/* Bloom effect specifically for status dots - no brightness change */
+.bloom-dot {
+    filter: drop-shadow(0 0 calc(var(--bloom-radius) * 0.8) var(--color-dot));
+    transition: filter 0.3s ease;
+}
+
+.bloom-text {
+    text-shadow: 
+        0 0 10px var(--bloom-text-shadow), 
+        0 0 20px var(--bloom-text-shadow), 
+        0 0 30px var(--bloom-text-shadow);
+    color: rgba(255, 255, 255, 1);
+    animation: var(--bloom-animation);
+    transition: text-shadow 0.3s ease;
+}
+
+.bloom-icon {
+    filter: drop-shadow(0 0 calc(var(--bloom-radius) * 0.6) var(--bloom-color));
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.bloom-icon:hover {
+    filter: drop-shadow(0 0 calc(var(--bloom-radius) * 1.2) var(--bloom-color));
+    transform: scale(1.05);
+}
+
+/* Subtle pulse animation for bloom text */
+@keyframes subtle-pulse {
+    0% {
+        text-shadow: 0 0 10px var(--color-primary), 0 0 15px var(--color-primary);
+    }
+    100% {
+        text-shadow: 0 0 15px var(--color-primary), 0 0 30px var(--color-primary), 0 0 45px var(--color-primary);
+    }
+}
+
+/* Particles Container */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Background Video and Image Elements */
+#bg-video, #bg-image, #bg-fallback {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+#bg-video {
+    object-fit: cover;
+}
+
+#bg-image, #bg-fallback {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#bg-fallback {
+    z-index: -3;
+}
+
+/* Rotating Location Animation */
+@keyframes locationFade {
+    0%, 8% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    12%, 18% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    22% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    26%, 98% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.location-text {
+    animation: locationFade 10s infinite;
+    display: inline-block;
+    transition: all 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Enhanced visual effects with bloom */
+.profile-image-wrapper {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.profile-image-wrapper.bloom {
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 calc(var(--bloom-radius) * 1.5) var(--bloom-color);
+}
+
+.social-icon.bloom-icon:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 0 calc(var(--bloom-radius) * 1.3) var(--bloom-color);
+}
+
+.status-dot.active.bloom {
+    box-shadow: 
+        0 0 15px var(--color-dot), 
+        0 0 30px var(--color-dot),
+        0 0 calc(var(--bloom-radius) * 0.8) var(--bloom-color);
+}
+
+/* Glow pulse effect */
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary);
+    }
+    50% {
+        box-shadow: 0 0 15px var(--color-primary), 0 0 30px var(--color-primary);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary);
+    }
+}
+
+.glow-pulse {
+    animation: glowPulse 2s infinite;
+}
+
+/* Background Video and Image Elements */
+#bg-video, #bg-image, #bg-fallback {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+#bg-video {
+    object-fit: cover;
+}
+
+#bg-image, #bg-fallback {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#bg-fallback {
+    z-index: -3;
+}
